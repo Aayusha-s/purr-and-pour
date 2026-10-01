@@ -1,122 +1,49 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
+import { useEffect, useState } from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+const image = (id, width = 1000) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${width}&q=85`
+const photos = {
+  cafe: image('photo-1516979187457-637abb4f9353', 1400), lamp: image('photo-1501339847302-ac426a4a7cbb'), coffee: image('photo-1495474472287-4d71bcdd2085'),
+  cat: image('photo-1518791841217-8f162f1e1131', 900), catTwo: image('photo-1513245543132-31f507417b26', 900), catThree: image('photo-1533743983669-94fa5c4338ec', 900), desk: image('photo-1497366754035-f200968a6e72'),
 }
+const cats = [['Mochi','SCOTTISH FOLD','Gentle & Curious',photos.cat],['Luna','MAINE COON','Playful & Social',photos.catTwo],['Espresso','BRITISH SHORTHAIR','Calm & Regal',photos.catThree],['Biscuit','RAGDOLL','Affectionate & Lazy',photos.cat],['Matcha','NORWEGIAN FOREST','Independent & Wise',photos.catTwo]]
+const features = [['☕','Specialty Coffee','Single-origin beans, freshly roasted, hand-crafted by our trained baristas every day.'],['🐈','Friendly Resident Cats','Eight socialized, healthy cats who genuinely love laps, laptops, and human company.'],['▣','Quiet Study Spaces','Noise-free zones, curated playlists, and a layout designed around deep, uninterrupted focus.'],['⌁','Fast Wi-Fi & Charging','500Mbps dedicated study SSID, USB-C and standard outlets at every single seat.'],['⌂','Cozy Interior','Natural wood, warm linen, soft light, and greenery in every corner. Intentionally calm.'],['□','Community Events','Yoga, book clubs, coffee workshops, and adoption weekends. Something happening every week.']]
+const drinks = [['Mochaccino','750','Double espresso, dark chocolate, silky oat milk - named for Mochi herself',photos.coffee,'Coffee'],['Catpuccino','680','Classic cappuccino with a cat face latte art, whole milk microfoam',photos.lamp,'Coffee'],['Meowcha Latte','720','Ceremonial matcha, steamed oat milk, gentle splash of vanilla',photos.cafe,'Matcha'],['Whisker Mocha','730','Espresso, dark cocoa, steamed milk, dusted with cacao powder',photos.coffee,'Coffee'],['Pawberry Tart','580','Buttery pastry, fresh berries, and a soft vanilla cream',photos.lamp,'Desserts'],['Catnip Tea','480','A soothing herbal blend served warm with honey on the side',photos.cafe,'Tea']]
+const faqs = [['Do I need to reserve a spot in advance?','Walk-ins are welcome, but reservations are recommended during evenings and weekends.'],['Are the cats safe to interact with?','Yes. Our cats are socialized, health-checked, and always have quiet spaces they can retreat to.'],['Can I bring my laptop and work here?','Absolutely. Every seat has power, fast Wi-Fi, and a calm place to settle in.'],['Is there a minimum spend or time limit?','There is no time limit. We simply ask that every guest orders one drink during their visit.'],['Do you cater to dietary requirements?','Our menu includes oat, soy, and almond milk, plus a rotating selection of vegetarian treats.'],['Can I host a private event here?','Yes. Send us a note and we will help you plan a thoughtful gathering for your group.']]
+const navItems = [['Home','#home'],['Menu','#menu'],['Meet Our Cats','#cats'],['Gallery','#gallery'],['Events','#events'],['Visit Us','#visit']]
 
+function App() {
+  const [openFaq, setOpenFaq] = useState(null); const [menu, setMenu] = useState(false); const [activeSection, setActiveSection] = useState('Home'); const [activeTab, setActiveTab] = useState('Signature'); const [contactSent, setContactSent] = useState(false); const [subscribed, setSubscribed] = useState(false)
+  const visibleDrinks = activeTab === 'Signature' ? drinks.slice(0, 4) : drinks.filter((drink) => drink[4] === activeTab)
+
+  useEffect(() => {
+    const sections = navItems.map(([, id]) => document.querySelector(id)).filter(Boolean)
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.find((entry) => entry.isIntersecting)
+      if (visible) setActiveSection(navItems.find(([, id]) => id === `#${visible.target.id}`)?.[0] ?? 'Home')
+    }, { rootMargin: '-20% 0px -65% 0px' })
+    sections.forEach((section) => observer.observe(section))
+    return () => observer.disconnect()
+  }, [])
+
+  const handleNavClick = () => setMenu(false)
+  return <div className="site-shell">
+    <header className="nav"><a className="brand" href="#home" onClick={handleNavClick}><span>✣</span> Purr &amp; Pour</a><button className="menu-toggle" onClick={() => setMenu(!menu)} aria-label="Toggle menu">☰</button><nav className={menu ? 'nav-links open' : 'nav-links'}>{navItems.map(([label, href]) => <a className={activeSection === label ? 'active' : ''} href={href} onClick={handleNavClick} key={label}>{label}</a>)}</nav><a className="reserve" href="#visit" onClick={handleNavClick}>Reserve a Spot</a></header>
+    <main>
+      <section className="hero" id="home" style={{backgroundImage:`linear-gradient(90deg,rgba(20,13,9,.62),rgba(27,17,12,.3)),url(${photos.cafe})`}}><div className="hero-copy"><p className="eyebrow light">CAT STUDY CAFE · SHIMOKITAZAWA, TOKYO</p><h1>Purr.<br/>Pour.<br/>Focus.</h1><p className="hero-lede">The perfect place to sip coffee, study peacefully, and<br className="desktop"/> spend time with our adorable resident cats.</p><div className="hero-actions"><a className="button light-button" href="#visit">Visit Us <span>→</span></a><a className="button outline-button" href="#menu">Explore Menu</a></div></div><span className="scroll-note">SCROLL ↓</span><span className="cat-mark">◕ᴥ◕</span></section>
+      <section className="stats"><div><strong>8</strong><span>RESIDENT CATS</span></div><div><strong>50,000+</strong><span>COFFEES SERVED</span></div><div><strong>4,900+</strong><span>FIVE-STAR REVIEWS</span></div><div><strong>240+</strong><span>EVENTS HOSTED</span></div></section>
+      <section className="story section" id="story"><div className="story-images"><img src={photos.cat} alt="Resident cat"/><img src={photos.lamp} alt="A quiet desk and lamp"/><div className="established">✣ <b>Est. 2020</b><small>Shimokitazawa, Tokyo</small></div></div><div className="story-copy"><p className="eyebrow">OUR STORY</p><h2>Born from a love of cats<br/>and quiet mornings</h2><p>Purr &amp; Pour started as a daydream between two friends over a terrible cup of vending machine coffee. It became a place where the city slows down - every corner holds a sleeping cat, every cup is made with intention, and every visit feels like coming home.</p><div className="timeline"><div><i>💡</i><span><b>2019 &nbsp; The Idea</b><small>Founders Hana &amp; Kenji dreamed of a place where study meets serenity - with cats present.</small></span></div><div><i>⌂</i><span><b>2020 &nbsp; Opening Day</b><small>Purr &amp; Pour opened in Shimokitazawa with two cats, four tables, and one espresso machine.</small></span></div><div><i>✦</i><span><b>2024 &nbsp; Today</b><small>50,000+ coffees served, 240+ events, and a community that keeps coming back.</small></span></div></div></div></section>
+      <section className="why section"><p className="eyebrow">WHY PURR &amp; POUR</p><h2>Everything you need.<br/>Nothing you don't.</h2><div className="feature-grid">{features.map(([icon,title,text])=><article className="feature" key={title}><div className="feature-icon">{icon}</div><h3>{title}</h3><p>{text}</p></article>)}</div></section>
+      <section className="cats section" id="cats"><p className="eyebrow">THE FAMILY</p><h2>Meet Our Resident Cats</h2><p className="section-intro">Each one has a name, a personality, and<br/> strong opinions about nap locations.</p><div className="cat-grid">{cats.map(([name,breed,trait,img])=><article className="cat-card" key={name}><img src={img} alt={name}/><div><h3>{name}</h3><small>{breed}</small><p>{trait}</p></div></article>)}</div></section>
+      <section className="menu-section section" id="menu"><p className="eyebrow">WHAT WE SERVE</p><h2>Popular Drinks</h2><div className="tabs">{['Signature','Coffee','Tea','Matcha','Desserts','Sandwiches'].map((tab)=><button className={activeTab===tab?'selected':''} onClick={() => setActiveTab(tab)} key={tab}>{tab}</button>)}</div><div className="drink-grid">{visibleDrinks.map(([name,price,text,img])=><article className="drink-card" key={name}><div className="drink-image" style={{backgroundImage:`url(${img})`}}><span>{activeTab.toUpperCase()}</span></div><div className="drink-body"><h3>{name}<b>¥{price}</b></h3><p>{text}</p></div></article>)}</div>{visibleDrinks.length === 0 && <p className="empty-state">That menu is being brewed. Try another category.</p>}</section>
+      <section className="space section"><p className="eyebrow">THE SPACE</p><h2>Study-Friendly Spaces</h2><p className="section-intro">Every corner is designed with focus in mind.</p><div className="space-content"><div className="floor-plan"><small>INTERACTIVE FLOOR PLAN</small><div className="floor-inner"><div>🔇<br/>Quiet Corner</div><div>▣<br/>Window Seats</div><div>👥<br/>Group Tables</div><div>📚<br/>Reading Nook</div></div></div><div className="space-points">{[['⌁','500Mbps Wi-Fi','Study SSID, zero throttle'],['ϟ','Every Seat Powered','USB-C & standard outlets'],['▣','200+ Books','Borrow freely, return later'],['♧','Group Tables','Bookable for teams'],['☕','Table Service','No need to break focus'],['♡','Cat Zones','Cats roam freely here']].map(([icon,title,text])=><div key={title}><strong>{icon}</strong><b>{title}</b><small>{text}</small></div>)}</div></div></section>
+      <section className="gallery section" id="gallery"><p className="eyebrow">THE ATMOSPHERE</p><h2>Gallery</h2><div className="gallery-grid"><img className="tall" src={photos.cafe} alt="Cafe interior"/><img className="tall" src={photos.lamp} alt="Reading nook"/><img src={photos.catThree} alt="Cat portrait"/><img src={photos.desk} alt="Study desk"/><img src={photos.cat} alt="Cat in the sun"/><img src={photos.coffee} alt="Coffee"/></div></section>
+      <section className="events section" id="events"><div className="events-heading"><div><p className="eyebrow">WHAT'S ON</p><h2>Upcoming Events</h2></div><a href="#events">See all events →</a></div><div className="event-grid">{[['3','AUG','Cat Yoga Morning','WELLNESS','Gentle morning yoga alongside our resident cats. Mats provided.','8:00 AM'],['10','AUG','Sunday Book Club','COMMUNITY','This month: The Travelling Cat Chronicles. All welcome.','2:00 PM'],['17','AUG','Late Night Study','STUDY','Café open until midnight. Special quiet menu and focus zones.','6 PM - 12 AM'],['24','AUG','Adoption Weekend','ADOPTION','Partner with local shelters. Meet cats looking for forever homes.','11:00 AM'],['7','SEP','Coffee Workshop','WORKSHOP','Learn pour-over and latte art from head barista Kenji.','10:00 AM']].map(([day,month,title,tag,text,time])=><article className="event-card" key={title}><div className="date"><b>{day}</b><small>{month}</small></div><span className="tag">{tag}</span><h3>{title}</h3><p>{text}</p><small className="time">◷ {time}</small></article>)}</div></section>
+      <section className="reviews"><p className="eyebrow light">REVIEWS</p><h2>What Regulars Say</h2><div className="review-grid">{[['James K.','Remote Developer','"Fast Wi-Fi, great espresso, and a cat asleep on the windowsill. This is peak work environment."'],['Mei L.','Illustrator','"The afternoon light here is perfect. Biscuit always finds my lap. Never been more productive."'],['Ryo M.','Architect','"Came for coffee, stayed for Luna. The hojicha latte is exceptional. So are the vibes."']].map(([name,role,text])=><article key={name}><div className="review-avatar">●</div><b>{name}</b><small>{role}</small><span>★★★★★</span><p>{text}</p></article>)}</div></section>
+      <section className="faq section"><p className="eyebrow">QUESTIONS</p><h2>FAQ</h2><div className="faq-list">{faqs.map(([question,answer],index)=><div className="faq-item" key={question}><button onClick={()=>setOpenFaq(openFaq===index?null:index)}>{question}<span>⌄</span></button>{openFaq===index&&<p>{answer}</p>}</div>)}</div></section>
+      <section className="visit section" id="visit"><p className="eyebrow">COME VISIT</p><h2>Visit Us</h2><div className="visit-content"><div className="visit-details"><div className="visit-image" style={{backgroundImage:`url(${photos.desk})`}}><div className="address">⌾<b>3-12-8 Kitazawa, Setagaya</b><small>Tokyo 155-0031, Japan</small></div></div><div className="info-grid"><div><b>◷<br/>Hours</b><p>Mon-Fri: 8am - 10pm<br/>Sat-Sun: 9am - 11pm</p></div><div><b>⌕<br/>Phone</b><p>+81 3-1234-5678<br/>Reservations welcome</p></div><div><b>✉<br/>Email</b><p>hello@purrandpour.jp</p></div><div><b>⌖<br/>Access</b><p>3 min from Shimokitazawa</p></div></div></div><form className="contact-form" onSubmit={event=>{event.preventDefault();setContactSent(true)}}><h3>Send us a message</h3><p>{contactSent ? 'Thanks - we will get back to you within one business day.' : "We'll get back to you within one business day."}</p><label>Your name<input required placeholder="Yuki Tanaka"/></label><label>Email address<input required type="email" placeholder="yuki@example.com"/></label><label>Message<textarea required placeholder="Ask about reservations, events, or just say hello..."/></label><button className="submit">➤ &nbsp; {contactSent ? 'Message Sent' : 'Send Message'}</button></form></div></section>
+    </main>
+    <footer><div className="footer-brand"><a className="brand" href="#home"><span>✣</span> Purr &amp; Pour</a><div className="footer-cat">◕ᴥ◕</div><p>A cat study café in the heart of Shimokitazawa. Come for the coffee, stay for the cats.</p><div className="social">◎  ◌  ⓕ</div></div><div><h4>NAVIGATE</h4>{navItems.map(([label, href]) => <a href={href} onClick={handleNavClick} key={label}>{label}</a>)}</div><div><h4>VISIT US</h4><p>3-12-8 Kitazawa<br/>Setagaya, Tokyo 155-0031</p><p>Mon-Fri: 8am - 10pm<br/>Sat-Sun: 9am - 11pm</p><p>+81 3-1234-5678</p></div><div><h4>STAY IN THE LOOP</h4><p>{subscribed ? 'You are on the list. See you soon.' : 'Events, specials, and occasional cat content.'}</p><form className="subscribe" onSubmit={event=>{event.preventDefault();setSubscribed(true)}}><input required type="email" placeholder="your@email.com"/><button aria-label="Subscribe">→</button></form><h4>CONTACT</h4><p>hello@purrandpour.jp<br/>events@purrandpour.jp</p></div><div className="copyright">© 2024 Purr &amp; Pour. All rights reserved. <span>Made with ☕ &amp; 🐾 in Shimokitazawa</span></div></footer>
+  </div>
+}
 export default App
